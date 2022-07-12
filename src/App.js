@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Main from "./pages/Mainpage";
+import React, {useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+   Route,
+ 
+} from "react-router-dom";
+import Navebar from "./componants/NaveBar";
+import FavoritPages from "./pages/Favorites";
+import Search from './pages/SearchPage';
+import NotFound from './pages/NotFound';
+import LanguageContext from "./context/langaugeContext";
 
 function App() {
+  const [contextLang,setContextLang] = useState('en');
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <LanguageContext.Provider value={{contextLang,setContextLang}}>
+      <Navebar />
+      <div className="container-fluid border">
+        <Switch>
+        <Route path="/" exact component={Main} />
+          <Route path="/favorit" exact component={FavoritPages} />
+          <Route path='/search' exact component={Search}/>
+          <Route path="*" exact component={NotFound} />
+        </Switch>
+        </div>
+        </LanguageContext.Provider>
+    </Router>
   );
 }
 
